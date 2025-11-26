@@ -39,6 +39,20 @@ namespace LoyaltyRewardsApp.Controllers
             return View(musteri);
         }
 
+
+        // Ödüller Sayfasýný Açan Fonksiyon
+        public IActionResult Odullerimiz()
+        {
+            // 1. Giriþ yapan kullanýcýyý bul (Puan kontrolü için lazým)
+            var girisYapanEmail = User.Claims.FirstOrDefault(c => System.Security.Claims.ClaimTypes.Email == c.Type)?.Value;
+            var musteri = _context.Musteriler.FirstOrDefault(m => m.Email == girisYapanEmail);
+
+            // 2. Ödülleri Çek
+            ViewBag.Oduller = _context.Oduller.ToList();
+
+            return View(musteri);
+        }
+
         // 2. ÖDÜL KULLANMA (POST)
         [HttpPost]
         public IActionResult OdulKullan(int odulId)
@@ -63,6 +77,11 @@ namespace LoyaltyRewardsApp.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Privacy()
+        {
+            return View();
         }
 
         // 3. PROMOSYON KODU GÝRÝÞÝ (POST)
