@@ -1,0 +1,41 @@
+﻿@model LoyaltyRewardsApp.Models.PromosyonKodu
+
+@{
+    ViewData["Title"] = "Yeni Kod Oluştur";
+}
+
+<div class="container mt-4" style="max-width: 600px;">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">💎 Yeni Promosyon Kodu</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Kod" class="control-label fw-bold"></label>
+                    <input asp-for="Kod" class="form-control" placeholder="Örn: YAZ2025" />
+                    <span asp-validation-for="Kod" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="PuanDegeri" class="control-label fw-bold"></label>
+                    <input asp-for="PuanDegeri" class="form-control" />
+                    <span asp-validation-for="PuanDegeri" class="text-danger"></span>
+                </div>
+
+                <div class="form-group form-check mb-4">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="KullanildiMi" /> @Html.DisplayNameFor(model => model.KullanildiMi)
+                    </label>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <input type="submit" value="Oluştur ve Kaydet" class="btn btn-success btn-lg" />
+                    <a asp-action="Index" class="btn btn-secondary">Listeye Geri Dön</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

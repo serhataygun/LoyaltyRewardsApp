@@ -1,0 +1,42 @@
+﻿@model LoyaltyRewardsApp.Models.PromosyonKodu
+
+@{
+    ViewData["Title"] = "Kodu Düzenle";
+}
+
+<div class="container mt-4" style="max-width: 600px;">
+    <div class="card shadow-sm">
+        <div class="card-header bg-warning">
+            <h4 class="mb-0 text-dark">✏️ Promosyon Kodunu Düzenle</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="Kod" class="control-label fw-bold"></label>
+                    <input asp-for="Kod" class="form-control" />
+                    <span asp-validation-for="Kod" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="PuanDegeri" class="control-label fw-bold"></label>
+                    <input asp-for="PuanDegeri" class="form-control" />
+                    <span asp-validation-for="PuanDegeri" class="text-danger"></span>
+                </div>
+
+                <div class="form-group form-check mb-4">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="KullanildiMi" /> @Html.DisplayNameFor(model => model.KullanildiMi)
+                    </label>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <input type="submit" value="Değişiklikleri Kaydet" class="btn btn-primary btn-lg" />
+                    <a asp-action="Index" class="btn btn-outline-secondary">Listeye Dön</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

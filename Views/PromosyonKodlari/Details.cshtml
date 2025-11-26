@@ -1,0 +1,39 @@
+﻿@model LoyaltyRewardsApp.Models.PromosyonKodu
+
+@{
+    ViewData["Title"] = "Kod Detayı";
+}
+
+<div class="container mt-4" style="max-width: 600px;">
+    <div class="card shadow-sm">
+        <div class="card-header bg-info text-white">
+            <h4 class="mb-0">ℹ️ Kod Detayları</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Kod)</dt>
+                <dd class="col-sm-8 fw-bold text-primary">@Html.DisplayFor(model => model.Kod)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PuanDegeri)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.PuanDegeri)</dd>
+
+                <dt class="col-sm-4">Durumu</dt>
+                <dd class="col-sm-8">
+                    @if (Model.KullanildiMi)
+                    {
+                        <span class="badge bg-danger">Kullanıldı</span>
+                    }
+                    else
+                    {
+
+                        <span class="badge bg-success">Aktif</span>
+                    }
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer text-center">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning px-4">Düzenle</a>
+            <a asp-action="Index" class="btn btn-secondary px-4">Listeye Dön</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+﻿@model LoyaltyRewardsApp.Models.Odul
+
+@{
+    ViewData["Title"] = "Ödül Düzenle";
+}
+
+<div class="container mt-4" style="max-width: 600px;">
+    <div class="card shadow">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">🎁 Ödül Bilgisini Düzenle</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="Baslik" class="control-label fw-bold"></label>
+                    <input asp-for="Baslik" class="form-control" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Aciklama" class="control-label fw-bold"></label>
+                    <input asp-for="Aciklama" class="form-control" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="GerekliPuan" class="control-label fw-bold"></label>
+                    <input asp-for="GerekliPuan" class="form-control" />
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="ResimUrl" class="control-label fw-bold"></label>
+                    <input asp-for="ResimUrl" class="form-control" placeholder="https://..." />
+                </div>
+
+                <div class="d-grid gap-2">
+                    <input type="submit" value="Ödülü Güncelle" class="btn btn-primary btn-lg" />
+                    <a asp-action="Index" class="btn btn-secondary">Vazgeç ve Dön</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

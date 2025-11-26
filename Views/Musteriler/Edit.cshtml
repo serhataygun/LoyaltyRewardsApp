@@ -1,0 +1,52 @@
+﻿@model LoyaltyRewardsApp.Models.Musteri
+
+@{
+    ViewData["Title"] = "Müşteri Düzenle";
+}
+
+<div class="container mt-4" style="max-width: 600px;">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">👤 Müşteri Bilgilerini Düzenle</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="AdSoyad" class="control-label fw-bold"></label>
+                    <input asp-for="AdSoyad" class="form-control" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Email" class="control-label fw-bold"></label>
+                    <input asp-for="Email" class="form-control" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="ToplamPuan" class="control-label fw-bold"></label>
+                    <input asp-for="ToplamPuan" class="form-control" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Sifre" class="control-label fw-bold"></label>
+                    <input asp-for="Sifre" class="form-control" />
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="Rol" class="control-label fw-bold"></label>
+                    <select asp-for="Rol" class="form-control">
+                        <option value="Uye">Uye</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <input type="submit" value="Kaydet" class="btn btn-primary btn-lg" />
+                    <a asp-action="Index" class="btn btn-secondary">İptal ve Dön</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

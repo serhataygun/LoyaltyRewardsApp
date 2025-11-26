@@ -1,0 +1,29 @@
+﻿@model LoyaltyRewardsApp.Models.Odul
+
+@{
+    ViewData["Title"] = "Ödül Detayı";
+}
+
+<div class="container mt-4" style="max-width: 600px;">
+    <div class="card shadow">
+        <div class="card-header bg-secondary text-white">
+            <h4 class="mb-0">ℹ️ Ödül Detayı</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Baslik)</dt>
+                <dd class="col-sm-8 fw-bold">@Html.DisplayFor(model => model.Baslik)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Aciklama)</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Aciklama)</dd>
+
+                <dt class="col-sm-4">@Html.DisplayNameFor(model => model.GerekliPuan)</dt>
+                <dd class="col-sm-8"><span class="badge bg-warning text-dark">@Model.GerekliPuan Puan</span></dd>
+            </dl>
+        </div>
+        <div class="card-footer text-center">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning px-4">Düzenle</a>
+            <a asp-action="Index" class="btn btn-secondary px-4">Geri Dön</a>
+        </div>
+    </div>
+</div>
