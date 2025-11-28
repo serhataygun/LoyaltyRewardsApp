@@ -24,13 +24,24 @@
                         <li class="nav-item ms-4 me-3">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Anasayfa</a>
                         </li>
-                        <li class="nav-item ms-3 me-3">
+                        <li class="nav-item ms-4 me-3">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Odullerimiz">Ödüller</a>
                         </li>
 
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item ms-4 me-3">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Gecmisim">Geçmiş</a>
+                            </li>
+
+                            <li class="nav-item ms-4 me-3">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Hesap" asp-action="Profil">Profil</a>
+                            </li>
+                        }
+
                         @if (User.IsInRole("Admin"))
                         {
-                            <li class="nav-item dropdown ms-3 me-3">
+                            <li class="nav-item dropdown ms-4 me-3">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">
                                     Yönetici Paneli
                                 </a>

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LoyaltyRewardsApp.Data;
 using LoyaltyRewardsApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace LoyaltyRewardsApp.Controllers
 {
@@ -60,6 +61,11 @@ namespace LoyaltyRewardsApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                // --- BURAYI EKLE ---
+                var hasher = new PasswordHasher<Musteri>();
+                musteri.Sifre = hasher.HashPassword(musteri, musteri.Sifre);
+                // -------------------
+
                 _context.Add(musteri);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

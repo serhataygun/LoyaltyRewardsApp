@@ -1,0 +1,45 @@
+﻿@model List<LoyaltyRewardsApp.Models.OdulGecmisi>
+
+@{
+    ViewData["Title"] = "Ödül Geçmişim";
+}
+
+<div class="container mt-5" style="max-width: 800px;">
+    <h2 class="mb-4 text-center">📜 Ödül Geçmişim</h2>
+
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-warning text-center">
+            Henüz hiç ödül almadınız. Puanlarınızı biriktirip harcamaya başlayın!
+        </div>
+        <div class="text-center">
+            <a asp-controller="Home" asp-action="Odullerimiz" class="btn btn-primary">Ödüllere Git</a>
+        </div>
+    }
+    else
+    {
+        <div class="card shadow">
+            <div class="card-body p-0">
+                <table class="table table-hover table-striped mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Ödül Adı</th>
+                            <th>Harcanan Puan</th>
+                            <th>Tarih</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var islem in Model)
+                        {
+                            <tr>
+                                <td class="fw-bold text-primary">@islem.OdulAdi</td>
+                                <td><span class="badge bg-danger">-@islem.HarcananPuan</span></td>
+                                <td>@islem.Tarih.ToString("dd.MM.yyyy HH:mm")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

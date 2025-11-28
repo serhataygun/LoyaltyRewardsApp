@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using LoyaltyRewardsApp.Data; // Kendi proje isminizi yazın
 using LoyaltyRewardsApp.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace LoyaltyRewardsApp.Controllers
 {
@@ -25,45 +26,45 @@ namespace LoyaltyRewardsApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Giris(string email, string sifre)
         {
-            // Veritabanında bu mail ve şifreye sahip biri var mı?
-            var kullanici = _context.Musteriler.FirstOrDefault(x => x.Email == email && x.Sifre == sifre);
+            // 1. Önce SADECE E-Posta ile kullanıcıyı bul (Şifreye henüz bakma)
+            var kullanici = _context.Musteriler.FirstOrDefault(x => x.Email == email);
 
             if (kullanici != null)
             {
-                // Kullanıcı bulundu! Şimdi ona bir "Kimlik Kartı" (Claims) hazırlayalım.
-                var talepler = new List<Claim>
+                // 2. Şifreyi Doğrula
+                var hasher = new PasswordHasher<Musteri>();
+
+                // Bu fonksiyon: Veritabanındaki Hash, Girilen Düz Şifre'yi karşılaştırır.
+                var sonuc = hasher.VerifyHashedPassword(kullanici, kullanici.Sifre, sifre);
+
+                // 3. Sonuç Başarılıysa İçeri Al
+                if (sonuc == PasswordVerificationResult.Success)
                 {
-                    new Claim(ClaimTypes.Name, kullanici.AdSoyad),
-                    new Claim(ClaimTypes.Email, kullanici.Email),
-                    new Claim(ClaimTypes.Role, kullanici.Rol), // Rolü burada yüklüyoruz!
-                    new Claim("MusteriId", kullanici.Id.ToString()) // ID'sini de gizlice ekleyelim
-                };
+                    var talepler = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, kullanici.AdSoyad),
+                new Claim(ClaimTypes.Email, kullanici.Email),
+                new Claim(ClaimTypes.Role, kullanici.Rol),
+                new Claim("MusteriId", kullanici.Id.ToString())
+            };
 
-                var kimlik = new ClaimsIdentity(talepler, "CerezSistemi");
-                var kural = new ClaimsPrincipal(kimlik);
+                    var kimlik = new ClaimsIdentity(talepler, "CerezSistemi");
+                    var kural = new ClaimsPrincipal(kimlik);
 
-                // --- ESKİ KODLARI SİLİN VE SADECE BUNU YAPIŞTIRIN ---
+                    // Çerez ayarlarını (Guid.NewGuid olayını) burada kullanabilirsin yine
+                    var girisOzellikleri = new AuthenticationProperties
+                    {
+                        IsPersistent = false,
+                        ExpiresUtc = null
+                    };
 
-                var girisOzellikleri = new AuthenticationProperties
-                {
-                    IsPersistent = false, // Beni Hatırla KAPALI
-                    ExpiresUtc = null     // Süre verme! (Süre vermezsen tarayıcı kapanınca ölür)
-                };
+                    await HttpContext.SignInAsync("CerezSistemi", kural, girisOzellikleri);
 
-                await HttpContext.SignInAsync("CerezSistemi", kural, girisOzellikleri);
-
-                // ----------------------------------------------------
-
-                // Eğer Admisse Admin paneline, değilse Anasayfaya gitsin
-                if (kullanici.Rol == "Admin")
-                {
-                    return RedirectToAction("Index", "Home"); // Admin kampanyalara gitsin
+                    return RedirectToAction("Index", "Home");
                 }
-
-                return RedirectToAction("Index", "Home");
             }
 
-            // Kullanıcı bulunamazsa
+            // Kullanıcı bulunamazsa veya şifre yanlışsa
             ViewBag.Hata = "E-posta veya şifre hatalı!";
             return View();
         }
@@ -85,7 +86,6 @@ namespace LoyaltyRewardsApp.Controllers
         [HttpPost]
         public IActionResult Kayit(Musteri yeniUye)
         {
-            // 1. Bu e-posta adresiyle daha önce kayıt olunmuş mu?
             var varMi = _context.Musteriler.Any(x => x.Email == yeniUye.Email);
             if (varMi)
             {
@@ -93,17 +93,63 @@ namespace LoyaltyRewardsApp.Controllers
                 return View();
             }
 
-            // 2. Yeni üyenin varsayılan ayarlarını yapalım
-            yeniUye.Rol = "Uye"; // Güvenlik önlemi: Kimse kayıt olurken kendini Admin yapamasın
-            yeniUye.ToplamPuan = 0; // Yeni üyenin puanı 0 başlar
+            // --- ŞİFRE HASHLEME BAŞLANGICI ---
+            // 1. Hashleyici aracını oluştur
+            var hasher = new PasswordHasher<Musteri>();
 
-            // 3. Veritabanına Ekle
+            // 2. Şifreyi hashle ve eski düz şifrenin üzerine yaz
+            // (HashPassword metodu içine; kullanıcı nesnesini ve düz şifreyi alır)
+            yeniUye.Sifre = hasher.HashPassword(yeniUye, yeniUye.Sifre);
+            // ---------------------------------
+
+            yeniUye.Rol = "Uye";
+            yeniUye.ToplamPuan = 0;
+
             _context.Musteriler.Add(yeniUye);
             _context.SaveChanges();
 
-            // 4. Kayıt başarılıysa Giriş sayfasına yönlendir
             TempData["Basarili"] = "Kaydınız oluşturuldu! Şimdi giriş yapabilirsiniz.";
             return RedirectToAction("Giris");
+        }
+
+        // 6. PROFİL SAYFASINI GÖSTER (GET)
+        public IActionResult Profil()
+        {
+            // Giriş yapanın e-postasını bul
+            var email = User.Claims.FirstOrDefault(c => System.Security.Claims.ClaimTypes.Email == c.Type)?.Value;
+
+            // Veritabanından o kişiyi getir
+            var kullanici = _context.Musteriler.FirstOrDefault(x => x.Email == email);
+
+            return View(kullanici);
+        }
+
+        // 7. PROFİL GÜNCELLEME (POST)
+        [HttpPost]
+        public IActionResult Profil(Musteri guncelVeri)
+        {
+            // Veritabanındaki asıl kaydı buluyoruz (ID üzerinden)
+            var dbKullanici = _context.Musteriler.Find(guncelVeri.Id);
+
+            if (dbKullanici != null)
+            {
+                // 1. Ad ve Email güncelle
+                dbKullanici.AdSoyad = guncelVeri.AdSoyad;
+                dbKullanici.Email = guncelVeri.Email;
+
+                // 2. Şifre alanı boş bırakılmadıysa, yeni şifreyi hashleyip kaydet
+                if (!string.IsNullOrEmpty(guncelVeri.Sifre))
+                {
+                    var hasher = new PasswordHasher<Musteri>();
+                    dbKullanici.Sifre = hasher.HashPassword(dbKullanici, guncelVeri.Sifre);
+                }
+                // (Eğer şifre kutusu boş bırakıldıysa, eski şifreye dokunmuyoruz)
+
+                _context.SaveChanges();
+                TempData["Basarili"] = "Bilgileriniz başarıyla güncellendi.";
+            }
+
+            return RedirectToAction("Profil"); // Sayfayı yenile
         }
     }
 }

@@ -13,5 +13,6 @@ namespace LoyaltyRewardsApp.Data
         public DbSet<Musteri> Musteriler { get; set; }
         public DbSet<Odul> Oduller { get; set; }
         public DbSet<PromosyonKodu> PromosyonKodlari { get; set; }
+        public DbSet<OdulGecmisi> GecmisIslemler { get; set; }
     }
 }

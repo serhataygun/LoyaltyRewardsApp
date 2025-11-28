@@ -1,0 +1,52 @@
+﻿@model LoyaltyRewardsApp.Models.Musteri
+
+@{
+    ViewData["Title"] = "Profilim";
+}
+
+<div class="container mt-5" style="max-width: 100%;">
+
+    @if (TempData["Basarili"] != null)
+    {
+        <div class="alert alert-success">@TempData["Basarili"]</div>
+    }
+
+    <div class="card shadow">
+        <div class="card-header bg-dark text-white d-flex align-items-center">
+            <h4 class="mb-0 me-auto">👤 Profil Bilgilerim</h4>
+            <span class="badge bg-light text-primary">@Model.Rol</span>
+        </div>
+        <div class="card-body">
+            <form asp-action="Profil" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-3">
+                    <label class="fw-bold">Ad Soyad</label>
+                    <input asp-for="AdSoyad" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="fw-bold">E-Posta Adresi</label>
+                    <input asp-for="Email" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="fw-bold">Yeni Şifre</label>
+                    <input name="Sifre" type="password" class="form-control" placeholder="Yeni Şifre" />
+                </div>
+
+                <hr />
+
+                <div class="mb-3 text-center">
+                    <p class="mb-1">Toplam Puanınız</p>
+                    <h2 class="text-success fw-bold">@Model.ToplamPuan</h2>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg">Bilgileri Güncelle</button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary btn-lg">Anasayfaya Dön</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
