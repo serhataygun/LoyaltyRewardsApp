@@ -49,7 +49,6 @@ namespace LoyaltyRewardsApp.Migrations
                     Baslik = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Aciklama = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GerekliPuan = table.Column<int>(type: "int", nullable: false),
-                    ResimUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

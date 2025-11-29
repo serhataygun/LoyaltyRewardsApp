@@ -4,43 +4,40 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<div class="container mt-4" style="max-width: 100%;">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">🎁 Yeni Ödül Ekle</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<h4>Odul</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Baslik" class="control-label"></label>
-                <input asp-for="Baslik" class="form-control" />
-                <span asp-validation-for="Baslik" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Aciklama" class="control-label"></label>
-                <input asp-for="Aciklama" class="form-control" />
-                <span asp-validation-for="Aciklama" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GerekliPuan" class="control-label"></label>
-                <input asp-for="GerekliPuan" class="form-control" />
-                <span asp-validation-for="GerekliPuan" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ResimUrl" class="control-label"></label>
-                <input asp-for="ResimUrl" class="form-control" />
-                <span asp-validation-for="ResimUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="form-group mb-3">
+                    <label asp-for="Baslik" class="control-label"></label>
+                    <input asp-for="Baslik" class="form-control" />
+                    <span asp-validation-for="Baslik" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Aciklama" class="control-label"></label>
+                    <input asp-for="Aciklama" class="form-control" />
+                    <span asp-validation-for="Aciklama" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="GerekliPuan" class="control-label"></label>
+                    <input asp-for="GerekliPuan" class="form-control" />
+                    <span asp-validation-for="GerekliPuan" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid gap-2 mt-3">
+                    <input type="submit" value="Oluştur ve Kaydet" class="btn btn-success btn-lg" />
+                    <a asp-action="Index" class="btn btn-secondary btn-lg">Listeye Geri Dön</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

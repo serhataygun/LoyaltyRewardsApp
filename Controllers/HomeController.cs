@@ -57,47 +57,40 @@ namespace LoyaltyRewardsApp.Controllers
         [HttpPost]
         public IActionResult OdulKullan(int odulId)
         {
-            // 1. Giriþ yapan kiþiyi bul
-            var girisYapanEmail = User.Claims.FirstOrDefault(c => System.Security.Claims.ClaimTypes.Email == c.Type)?.Value;
+            // ID ile kullanýcýyý bul (Garanti Yöntem)
+            var idClaim = User.Claims.FirstOrDefault(c => c.Type == "MusteriId");
+            if (idClaim == null) return RedirectToAction("Giris", "Hesap");
 
-            // Eðer email yoksa (Giriþ düþmüþse) anasayfaya at
-            if (string.IsNullOrEmpty(girisYapanEmail)) return RedirectToAction("Index");
-
-            var musteri = _context.Musteriler.FirstOrDefault(m => m.Email == girisYapanEmail);
+            int id = int.Parse(idClaim.Value);
+            var musteri = _context.Musteriler.Find(id);
             var odul = _context.Oduller.Find(odulId);
 
-            // Güvenlik: Müþteri veya ödül yoksa iptal
             if (musteri == null || odul == null) return RedirectToAction("Index");
 
-            // 2. Yeterli Puan Var mý?
             if (musteri.ToplamPuan >= odul.GerekliPuan)
             {
-                // A) Puaný Düþ
+                // Puaný düþ
                 musteri.ToplamPuan -= odul.GerekliPuan;
 
-                // B) GEÇMÝÞE KAYDET (Ýþte burasý eksik olabilir)
+                // Geçmiþe kaydet
                 var yeniKayit = new OdulGecmisi
                 {
                     MusteriId = musteri.Id,
                     OdulAdi = odul.Baslik,
                     HarcananPuan = odul.GerekliPuan,
-                    Tarih = DateTime.Now // Þu anki saat
+                    Tarih = DateTime.Now
                 };
-
-                // Bu satýr çok önemli: "Bu kaydý veritabanýna ekle" diyoruz
                 _context.GecmisIslemler.Add(yeniKayit);
 
-                // C) Tüm deðiþiklikleri (Puan düþüþü + Geçmiþ kaydý) veritabanýna iþle
                 _context.SaveChanges();
-
-                TempData["Mesaj"] = "Tebrikler! Ödülünüzü aldýnýz.";
+                TempData["Mesaj"] = "Tebrikler, ödülünüzü aldýnýz! Geçmiþ sayfasýndan ödüllerinizi görüntüleyebilirsiniz.";
             }
             else
             {
                 TempData["Hata"] = "Puanýnýz yetersiz!";
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index"); // Veya return RedirectToAction("Odullerimiz");
         }
 
         public IActionResult Privacy()
@@ -109,61 +102,55 @@ namespace LoyaltyRewardsApp.Controllers
         [HttpPost]
         public IActionResult PuanKazan(string girilenKod)
         {
-            // 1. Giriþ yapan kullanýcýyý bul
-            var girisYapanEmail = User.Claims.FirstOrDefault(c => System.Security.Claims.ClaimTypes.Email == c.Type)?.Value;
+            // ID ile kullanýcýyý bul
+            var idClaim = User.Claims.FirstOrDefault(c => c.Type == "MusteriId");
+            if (idClaim == null) return RedirectToAction("Giris", "Hesap");
 
-            if (girisYapanEmail == null)
-            {
-                TempData["Hata"] = "Kod kullanmak için önce giriþ yapmalýsýnýz!";
-                return RedirectToAction("Index");
-            }
+            int id = int.Parse(idClaim.Value);
+            var musteri = _context.Musteriler.Find(id);
 
-            var musteri = _context.Musteriler.FirstOrDefault(m => m.Email == girisYapanEmail);
+            if (musteri == null) return RedirectToAction("Giris", "Hesap");
 
-            // 1. Önce veritabanýndaki "Kullanýlmamýþ" tüm kodlarý çekelim.
-            // .ToList() dediðimiz an veriler veritabanýndan gelir ve RAM'e yüklenir.
+            // Kod Kontrolü (Ram üzerinde güvenli karþýlaþtýrma)
             var aktifKodlar = _context.PromosyonKodlari.Where(p => p.KullanildiMi == false).ToList();
-
-            // 2. Þimdi RAM'deki bu liste üzerinde o özel karþýlaþtýrmayý yapalým.
-            // Artýk veritabanýndan çýktýðýmýz için C#'ýn tüm özelliklerini (ToUpperInvariant) kullanabiliriz.
             var promosyon = aktifKodlar.FirstOrDefault(p =>
-                p.Kod.Trim().ToUpperInvariant() == girilenKod.Trim().ToUpperInvariant());
-
-            // Buradan sonrasý ayný kalacak (if promosyon != null ...)
+                string.Equals(p.Kod.Trim(), girilenKod.Trim(), StringComparison.OrdinalIgnoreCase));
 
             if (promosyon != null)
             {
-                // 3. Kod Geçerli! Puaný Yükle
                 musteri.ToplamPuan += promosyon.PuanDegeri;
-
-                // 4. Kodu "Kullanýldý" olarak iþaretle (Bir daha kullanýlamasýn)
                 promosyon.KullanildiMi = true;
-
-                // 5. Her iki tabloyu da güncelle (Müþteri ve PromosyonKodu)
                 _context.SaveChanges();
-
                 TempData["Mesaj"] = $"Tebrikler! {promosyon.PuanDegeri} puan kazandýnýz.";
             }
             else
             {
-                TempData["Hata"] = "Girdiðiniz kod hatalý veya daha önce kullanýlmýþ.";
+                TempData["Hata"] = "Kod hatalý veya kullanýlmýþ.";
             }
 
             return RedirectToAction("Index");
         }
 
         // GEÇMÝÞ ÖDÜLLERÝM SAYFASI
+        // GEÇMÝÞ ÖDÜLLERÝM SAYFASI
         public IActionResult Gecmisim()
         {
-            // Giriþ yapan kullanýcýyý bul
-            var email = User.Claims.FirstOrDefault(c => System.Security.Claims.ClaimTypes.Email == c.Type)?.Value;
-            var musteri = _context.Musteriler.FirstOrDefault(m => m.Email == email);
+            // ESKÝ YÖNTEM (Mail ile buluyordu - HATA VERÝYOR)
+            // var email = User.Claims.FirstOrDefault(c => System.Security.Claims.ClaimTypes.Email == c.Type)?.Value;
+            // var musteri = _context.Musteriler.FirstOrDefault(m => m.Email == email);
 
-            if (musteri == null) return RedirectToAction("Giris", "Hesap");
+            // YENÝ YÖNTEM (ID ile buluyor - GARANTÝ)
+            var idClaim = User.Claims.FirstOrDefault(c => c.Type == "MusteriId");
 
-            // Bu müþteriye ait geçmiþ kayýtlarý bul ve tarihe göre (En yeni en üstte) sýrala
+            // Eðer ID yoksa (Giriþ yapmamýþsa)
+            if (idClaim == null) return RedirectToAction("Giris", "Hesap");
+
+            int id = int.Parse(idClaim.Value);
+
+            // Sadece geçmiþi çekeceðimiz için müþteriyi bulmaya gerek yok, 
+            // direkt ID üzerinden geçmiþ tablosuna sorgu atabiliriz.
             var gecmisListe = _context.GecmisIslemler
-                                      .Where(x => x.MusteriId == musteri.Id)
+                                      .Where(x => x.MusteriId == id)
                                       .OrderByDescending(x => x.Tarih)
                                       .ToList();
 

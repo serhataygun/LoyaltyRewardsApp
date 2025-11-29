@@ -4,48 +4,55 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<div class="container mt-4" style="max-width: 100%;">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">👤 Yeni Müşteri Ekle</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<h4>Musteri</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="AdSoyad" class="control-label"></label>
-                <input asp-for="AdSoyad" class="form-control" />
-                <span asp-validation-for="AdSoyad" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group"> 
-                <label asp-for="ToplamPuan" class="control-label"></label>
-                <input asp-for="ToplamPuan" class="form-control" />
-                <span asp-validation-for="ToplamPuan" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Sifre" class="control-label"></label>
-                <input asp-for="Sifre" class="form-control" />
-                <span asp-validation-for="Sifre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Rol" class="control-label"></label>
-                <input asp-for="Rol" class="form-control" />
-                <span asp-validation-for="Rol" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="form-group mb-2">
+                    <label asp-for="AdSoyad" class="control-label"></label>
+                    <input asp-for="AdSoyad" class="form-control" />
+                    <span asp-validation-for="AdSoyad" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-2">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-2">
+                    <label asp-for="ToplamPuan" class="control-label"></label>
+                    <input asp-for="ToplamPuan" class="form-control" />
+                    <span asp-validation-for="ToplamPuan" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-2">
+                    <label asp-for="Sifre" class="control-label"></label>
+                    <input asp-for="Sifre" class="form-control" />
+                    <span asp-validation-for="Sifre" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Rol" class="control-label"></label>
+                    <select asp-for="Rol" class="form-control">
+                        <option value="Uye">Uye</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                    <span asp-validation-for="Rol" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid gap-2 mt-3">
+                    <input type="submit" value="Oluştur ve Kaydet" class="btn btn-success btn-lg" />
+                    <a asp-action="Index" class="btn btn-secondary btn-lg">Listeye Geri Dön</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

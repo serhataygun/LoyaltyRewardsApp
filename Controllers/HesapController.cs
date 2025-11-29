@@ -113,43 +113,87 @@ namespace LoyaltyRewardsApp.Controllers
         }
 
         // 6. PROFİL SAYFASINI GÖSTER (GET)
+        // 6. PROFİL SAYFASINI GÖSTER (GET)
         public IActionResult Profil()
         {
-            // Giriş yapanın e-postasını bul
-            var email = User.Claims.FirstOrDefault(c => System.Security.Claims.ClaimTypes.Email == c.Type)?.Value;
+            // ESKİ YÖNTEM (Mail ile bulma - HATA VEREN KISIM)
+            // var email = User.Claims.FirstOrDefault(c => System.Security.Claims.ClaimTypes.Email == c.Type)?.Value;
+            // var kullanici = _context.Musteriler.FirstOrDefault(x => x.Email == email);
 
-            // Veritabanından o kişiyi getir
-            var kullanici = _context.Musteriler.FirstOrDefault(x => x.Email == email);
+            // YENİ YÖNTEM (ID ile bulma - GARANTİ YÖNTEM)
+            // 1. Bileklikteki "MusteriId" yazan yeri oku
+            var idClaim = User.Claims.FirstOrDefault(c => c.Type == "MusteriId");
+
+            // Eğer ID bulunamazsa (Giriş düşmüşse) giriş sayfasına at
+            if (idClaim == null) return RedirectToAction("Giris");
+
+            // 2. O ID'ye sahip kullanıcıyı veritabanından çek
+            int id = int.Parse(idClaim.Value);
+            var kullanici = _context.Musteriler.Find(id);
+
+            // Eğer kullanıcı silinmişse vs. hata vermesin, girişe atsın
+            if (kullanici == null)
+            {
+                // Güvenlik için çıkış yaptırıp girişe yollayalım
+                return RedirectToAction("Cikis");
+            }
 
             return View(kullanici);
         }
 
         // 7. PROFİL GÜNCELLEME (POST)
+        // 7. PROFİL GÜNCELLEME (POST)
         [HttpPost]
-        public IActionResult Profil(Musteri guncelVeri)
+        public async Task<IActionResult> Profil(Musteri guncelVeri)
         {
-            // Veritabanındaki asıl kaydı buluyoruz (ID üzerinden)
+            // Veritabanındaki asıl kaydı buluyoruz
             var dbKullanici = _context.Musteriler.Find(guncelVeri.Id);
 
             if (dbKullanici != null)
             {
-                // 1. Ad ve Email güncelle
+                // 1. Bilgileri Güncelle
                 dbKullanici.AdSoyad = guncelVeri.AdSoyad;
                 dbKullanici.Email = guncelVeri.Email;
 
-                // 2. Şifre alanı boş bırakılmadıysa, yeni şifreyi hashleyip kaydet
+                // 2. Şifre alanı doluysa şifreyi de güncelle
                 if (!string.IsNullOrEmpty(guncelVeri.Sifre))
                 {
                     var hasher = new PasswordHasher<Musteri>();
                     dbKullanici.Sifre = hasher.HashPassword(dbKullanici, guncelVeri.Sifre);
                 }
-                // (Eğer şifre kutusu boş bırakıldıysa, eski şifreye dokunmuyoruz)
 
+                // Değişiklikleri veritabanına kaydet
                 _context.SaveChanges();
+
+                // --- YENİ EKLENEN KISIM: ÇAKTIRMADAN TEKRAR GİRİŞ YAPTIR ---
+                // (Böylece kullanıcının kolundaki eski bilet yenilenir)
+
+                var talepler = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, dbKullanici.AdSoyad), // Yeni isim
+                    new Claim(ClaimTypes.Email, dbKullanici.Email),   // Yeni mail
+                    new Claim(ClaimTypes.Role, dbKullanici.Rol),
+                    new Claim("MusteriId", dbKullanici.Id.ToString()) // ID sabit
+                };
+
+                var kimlik = new ClaimsIdentity(talepler, "CerezSistemi");
+                var kural = new ClaimsPrincipal(kimlik);
+
+                // Çerez ayarları (Program.cs'deki Guid mantığıyla uyumlu olsun diye basit tutuyoruz)
+                var girisOzellikleri = new AuthenticationProperties
+                {
+                    IsPersistent = false,
+                    ExpiresUtc = null
+                };
+
+                // Eski bilekliği çıkarıp yenisini takıyoruz
+                await HttpContext.SignInAsync("CerezSistemi", kural, girisOzellikleri);
+                // -------------------------------------------------------------
+
                 TempData["Basarili"] = "Bilgileriniz başarıyla güncellendi.";
             }
 
-            return RedirectToAction("Profil"); // Sayfayı yenile
+            return RedirectToAction("Profil");
         }
     }
 }
