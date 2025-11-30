@@ -34,7 +34,7 @@ namespace LoyaltyRewardsApp.Controllers
                 musteri = new Musteri { AdSoyad = "Misafir (Lütfen Giriş Yapın)", ToplamPuan = 0 };
             }
 
-            ViewBag.Oduller = _context.Oduller.ToList();
+            ViewBag.Oduller = _context.Oduller.OrderBy(x => x.GerekliPuan).ToList();
 
             return View(musteri);
         }
@@ -48,7 +48,7 @@ namespace LoyaltyRewardsApp.Controllers
             var musteri = _context.Musteriler.FirstOrDefault(m => m.Email == girisYapanEmail);
 
             // 2. Ödülleri Çek
-            ViewBag.Oduller = _context.Oduller.ToList();
+            ViewBag.Oduller = _context.Oduller.OrderBy(x => x.GerekliPuan).ToList();
 
             return View(musteri);
         }

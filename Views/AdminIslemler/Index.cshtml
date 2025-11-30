@@ -1,0 +1,37 @@
+﻿@model IEnumerable<LoyaltyRewardsApp.Controllers.IslemViewModel>
+
+@{
+    ViewData["Title"] = "Tüm Harcamalar";
+}
+
+<div class="text-center mb-3">
+    <h1 class="mb-4">📋 Tüm Harcama Geçmişi</h1>
+</div>
+
+
+<div class="card-body p-0 overflow-hidden" style="border-radius: 10px;">
+    <table class="table table-hover table-striped align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Müşteri</th>
+                <th>Ödül</th>
+                <th>Puan</th>
+                <th>Tarih</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="fw-bold">@item.MusteriAdi</div>
+                        <small class="text-muted">@item.MusteriEmail</small>
+                    </td>
+                    <td class="text-primary fw-bold">@item.OdulAdi</td>
+                    <td><span class="badge bg-danger">-@item.HarcananPuan</span></td>
+                    <td>@item.Tarih.ToString("dd.MM.yyyy HH:mm")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

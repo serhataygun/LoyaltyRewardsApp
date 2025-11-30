@@ -1,6 +1,27 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Gizlilik Politikası";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<div class="container mt-5" style="max-width: 800px;">
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-5">
+            <h2 class="mb-4 text-center fw-bold text-dark">🔒 Gizlilik ve Güvenlik Politikası</h2>
+            <hr />
+
+            <p class="text-muted">Son Güncelleme: @DateTime.Now.ToString("dd MMMM yyyy")</p>
+
+            <h5 class="mt-4 fw-bold">1. Verilerin Korunması</h5>
+            <p>Sadakat Portalı olarak kişisel verilerinizin (Ad, Soyad, E-Posta) güvenliğine en üst düzeyde önem veriyoruz. Şifreleriniz veritabanımızda özel algoritmalarla (Hashing) saklanmaktadır.</p>
+
+            <h5 class="mt-4 fw-bold">2. Çerez (Cookie) Kullanımı</h5>
+            <p>Sitemizdeki deneyiminizi iyileştirmek ve oturum güvenliğini sağlamak amacıyla güvenli çerezler kullanılmaktadır. Bu çerezler tarayıcınızı kapattığınızda otomatik olarak silinir.</p>
+
+            <h5 class="mt-4 fw-bold">3. Puan ve Ödüller</h5>
+            <p>Kazanılan puanlar nakde çevrilemez, sadece sistem içerisindeki ödül kataloğunda geçerlidir. Yönetim, puan sisteminde değişiklik yapma hakkını saklı tutar.</p>
+
+            <div class="alert alert-light mt-5 text-center border">
+                <small>Sorularınız için: <a href="mailto:destek@sadakatportali.com">destek@sadakatportali.com</a></small>
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,35 +6,35 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1>🎁 Ödül Yönetimi</h1>
-    <a asp-action="Create" class="btn btn-primary btn-lg">+ Yeni Ödül Ekle</a>
+    <a asp-action="Create" class="btn btn-primary btn-lg" style="border-radius: 15px;">
+        + Yeni Ödül Ekle
+    </a>
 </div>
 
-<div class="card shadow-sm">
-    <div class="card-body">
-        <table class="table table-hover align-middle">
-            <thead class="table-dark">
+<div class="card-body p-0 overflow-hidden" style="border-radius: 10px;">
+    <table class="table table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Baslik)</th>
+                <th>@Html.DisplayNameFor(model => model.GerekliPuan)</th>
+                <th>@Html.DisplayNameFor(model => model.Aciklama)</th>
+                <th class="text-end" style="min-width: 200px;">İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
                 <tr>
-                    <th>@Html.DisplayNameFor(model => model.Baslik)</th>
-                    <th>@Html.DisplayNameFor(model => model.GerekliPuan)</th>
-                    <th>@Html.DisplayNameFor(model => model.Aciklama)</th>
-                    <th class="text-end" style="min-width: 200px;">İşlemler</th>
+                    <td class="fw-bold text-primary">@Html.DisplayFor(modelItem => item.Baslik)</td>
+                    <td><span class="badge bg-warning text-dark">@item.GerekliPuan Puan</span></td>
+                    <td>@Html.DisplayFor(modelItem => item.Aciklama)</td>
+                    <td class="text-end">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-1">Düzenle</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white me-1">Detay</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Sil</a>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td class="fw-bold text-primary">@Html.DisplayFor(modelItem => item.Baslik)</td>
-                        <td><span class="badge bg-warning text-dark">@item.GerekliPuan Puan</span></td>
-                        <td>@Html.DisplayFor(modelItem => item.Aciklama)</td>
-                        <td class="text-end">
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning me-1">Düzenle</a>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white me-1">Detay</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Sil</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            }
+        </tbody>
+    </table>
 </div>

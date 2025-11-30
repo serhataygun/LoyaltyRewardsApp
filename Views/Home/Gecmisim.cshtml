@@ -13,33 +13,29 @@
             Henüz hiç ödül almadınız. Puanlarınızı biriktirip harcamaya başlayın!
         </div>
         <div class="text-center">
-            <a asp-controller="Home" asp-action="Odullerimiz" class="btn btn-primary">Ödüllere Git</a>
+            <a asp-action="Index" class="btn btn-primary">Ödüllere Git</a>
         </div>
     }
     else
     {
-        <div class="card shadow">
-            <div class="card-body p-0">
-                <table class="table table-hover table-striped mb-0">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Ödül Adı</th>
-                            <th>Harcanan Puan</th>
-                            <th>Alınan Tarih</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var islem in Model)
-                        {
-                            <tr>
-                                <td class="fw-bold text-primary">@islem.OdulAdi</td>
-                                <td><span class="badge bg-danger">-@islem.HarcananPuan</span></td>
-                                <td>@islem.Tarih.ToString("dd.MM.yyyy HH:mm")</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th class="py-3 ps-3" style="border-top-left-radius: 10px;">Ödül Adı</th>
+                    <th class="py-3">Harcanan Puan</th>
+                    <th class="py-3 pe-3" style="border-top-right-radius: 10px;">Tarih</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var islem in Model)
+                {
+                    <tr>
+                        <td class="fw-bold text-primary ps-3">@islem.OdulAdi</td>
+                        <td><span class="badge bg-danger">-@islem.HarcananPuan</span></td>
+                        <td class="text-muted pe-3">@islem.Tarih.ToString("dd.MM.yyyy HH:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     }
 </div>
