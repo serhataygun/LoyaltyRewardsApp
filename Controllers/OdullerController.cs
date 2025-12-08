@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LoyaltyRewardsApp.Controllers
 {
-    [Authorize(Roles = "Admin")] // Sadece Admin rolü olanlar bu dosyayı çalıştırabilir!
+    [Authorize(Roles = "Admin")] 
     public class OdullerController : Controller
     {
         private readonly UygulamaDbContext _context;
@@ -21,13 +21,11 @@ namespace LoyaltyRewardsApp.Controllers
             _context = context;
         }
 
-        // GET: Oduller
         public async Task<IActionResult> Index()
         {
             return View(await _context.Oduller.ToListAsync());
         }
 
-        // GET: Oduller/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,37 +43,27 @@ namespace LoyaltyRewardsApp.Controllers
             return View(odul);
         }
 
-        // GET: Oduller/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Oduller/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // POST: Oduller/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Odul odul)
         {
             if (ModelState.IsValid)
             {
-                // 1. Veritabanına Ekle
                 _context.Add(odul);
 
-                // 2. Değişiklikleri Kaydet (SQL'e yaz)
                 await _context.SaveChangesAsync();
 
-                // 3. İŞTE SENİN İSTEDİĞİN KISIM: İŞ BİTİNCE LİSTEYE GİT
                 return RedirectToAction(nameof(Index));
             }
 
-            // Eğer hata varsa sayfayı yenileme, hataları göster
             return View(odul);
         }
 
-        // GET: Oduller/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -91,9 +79,6 @@ namespace LoyaltyRewardsApp.Controllers
             return View(odul);
         }
 
-        // POST: Oduller/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Baslik,Aciklama,GerekliPuan,ResimUrl")] Odul odul)
@@ -125,8 +110,6 @@ namespace LoyaltyRewardsApp.Controllers
             }
             return View(odul);
         }
-
-        // GET: Oduller/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,7 +127,6 @@ namespace LoyaltyRewardsApp.Controllers
             return View(odul);
         }
 
-        // POST: Oduller/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

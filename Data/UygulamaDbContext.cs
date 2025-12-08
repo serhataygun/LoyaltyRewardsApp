@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore; // Bu satırın altı çiziliyse ampule tıklayıp ekleyin
-using LoyaltyRewardsApp.Models; // Kendi proje isminizle değiştirin
+﻿using Microsoft.EntityFrameworkCore; 
+using LoyaltyRewardsApp.Models; 
 
 namespace LoyaltyRewardsApp.Data
 {
@@ -9,7 +9,6 @@ namespace LoyaltyRewardsApp.Data
         {
         }
 
-        // Veritabanında oluşacak tabloları buraya yazıyoruz
         public DbSet<Musteri> Musteriler { get; set; }
         public DbSet<Odul> Oduller { get; set; }
         public DbSet<PromosyonKodu> PromosyonKodlari { get; set; }

@@ -4,10 +4,8 @@
 
 namespace LoyaltyRewardsApp.Migrations
 {
-    /// <inheritdoc />
     public partial class KimlikVePromosyonSistemi : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
@@ -40,7 +38,6 @@ namespace LoyaltyRewardsApp.Migrations
                 });
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

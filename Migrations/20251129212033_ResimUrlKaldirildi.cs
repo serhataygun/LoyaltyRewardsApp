@@ -4,10 +4,8 @@
 
 namespace LoyaltyRewardsApp.Migrations
 {
-    /// <inheritdoc />
     public partial class ResimUrlKaldirildi : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
@@ -15,7 +13,6 @@ namespace LoyaltyRewardsApp.Migrations
                 table: "Oduller");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(

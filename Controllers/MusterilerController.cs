@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace LoyaltyRewardsApp.Controllers
 {
-    [Authorize(Roles = "Admin")] // Sadece Admin rolü olanlar bu dosyayı çalıştırabilir!
+    [Authorize(Roles = "Admin")] 
     public class MusterilerController : Controller
     {
         private readonly UygulamaDbContext _context;
@@ -22,13 +22,11 @@ namespace LoyaltyRewardsApp.Controllers
             _context = context;
         }
 
-        // GET: Musteriler
         public async Task<IActionResult> Index()
         {
             return View(await _context.Musteriler.ToListAsync());
         }
 
-        // GET: Musteriler/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,25 +44,19 @@ namespace LoyaltyRewardsApp.Controllers
             return View(musteri);
         }
 
-        // GET: Musteriler/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Musteriler/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,AdSoyad,Email,ToplamPuan,Sifre,Rol")] Musteri musteri)
         {
             if (ModelState.IsValid)
             {
-                // --- BURAYI EKLE ---
                 var hasher = new PasswordHasher<Musteri>();
                 musteri.Sifre = hasher.HashPassword(musteri, musteri.Sifre);
-                // -------------------
 
                 _context.Add(musteri);
                 await _context.SaveChangesAsync();
@@ -73,7 +65,6 @@ namespace LoyaltyRewardsApp.Controllers
             return View(musteri);
         }
 
-        // GET: Musteriler/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,9 +80,6 @@ namespace LoyaltyRewardsApp.Controllers
             return View(musteri);
         }
 
-        // POST: Musteriler/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,AdSoyad,Email,ToplamPuan,Sifre,Rol")] Musteri musteri)
@@ -124,7 +112,6 @@ namespace LoyaltyRewardsApp.Controllers
             return View(musteri);
         }
 
-        // GET: Musteriler/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -142,7 +129,6 @@ namespace LoyaltyRewardsApp.Controllers
             return View(musteri);
         }
 
-        // POST: Musteriler/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

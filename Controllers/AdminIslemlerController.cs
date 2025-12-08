@@ -17,11 +17,10 @@ namespace LoyaltyRewardsApp.Controllers
 
         public IActionResult Index()
         {
-            // Tüm geçmiş işlemleri tarihe göre (en yeni en üstte) çekelim
-            // Burada küçük bir LINQ join işlemi yapacağız ki Müşterinin adını da görelim
+            // Tüm geçmiş işlemleri tarihe göre düzenler
             var islemler = (from islem in _context.GecmisIslemler
                             join musteri in _context.Musteriler on islem.MusteriId equals musteri.Id
-                            select new IslemViewModel // Yeni bir sanal model kullanacağız
+                            select new IslemViewModel 
                             {
                                 Id = islem.Id,
                                 MusteriAdi = musteri.AdSoyad,
@@ -36,8 +35,6 @@ namespace LoyaltyRewardsApp.Controllers
             return View(islemler);
         }
     }
-
-    // Bu sayfa için özel, sadece veri taşımaya yarayan küçük bir model
     public class IslemViewModel
     {
         public int Id { get; set; }

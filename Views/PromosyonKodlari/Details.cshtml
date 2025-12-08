@@ -7,7 +7,7 @@
 <div class="container mt-4" style="max-width: 100%;">
     <div class="card shadow-sm">
         <div class="card-header bg-dark text-white">
-            <h4 class="mb-0">ℹ️ Kod Detayları</h4>
+            <h4 class="mb-0">ℹ️ Code Details</h4>
         </div>
         <div class="card-body">
             <dl class="row">
@@ -17,23 +17,23 @@
                 <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PuanDegeri)</dt>
                 <dd class="col-sm-8">@Html.DisplayFor(model => model.PuanDegeri)</dd>
 
-                <dt class="col-sm-4">Durumu</dt>
+                <dt class="col-sm-4">Status</dt>
                 <dd class="col-sm-8">
                     @if (Model.KullanildiMi)
                     {
-                        <span class="badge bg-danger">Kullanıldı</span>
+                        <span class="badge bg-danger">Used</span>
                     }
                     else
                     {
 
-                        <span class="badge bg-success">Aktif</span>
+                        <span class="badge bg-success">Active</span>
                     }
                 </dd>
             </dl>
         </div>
         <div class="card-footer text-center">
-            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning px-4">Düzenle</a>
-            <a asp-action="Index" class="btn btn-secondary px-4">Listeye Dön</a>
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning px-4">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary px-4">Back to List</a>
         </div>
     </div>
 </div>

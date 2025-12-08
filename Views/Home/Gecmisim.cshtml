@@ -5,15 +5,15 @@
 }
 
 <div class="container mt-5" style="max-width: 100%;">
-    <h2 class="mb-4 text-center">📜 Ödül Geçmişim</h2>
+    <h2 class="mb-4 text-center">📜 My Reward History</h2>
 
     @if (Model.Count == 0)
     {
         <div class="alert alert-warning text-center">
-            Henüz hiç ödül almadınız. Puanlarınızı biriktirip harcamaya başlayın!
+            You haven't received any rewards yet. Start saving your points and spending them!
         </div>
         <div class="text-center">
-            <a asp-action="Index" class="btn btn-primary">Ödüllere Git</a>
+            <a asp-action="Index" class="btn btn-primary">Go To Rewards</a>
         </div>
     }
     else
@@ -21,9 +21,9 @@
         <table class="table table-hover align-middle">
             <thead class="table-dark">
                 <tr>
-                    <th class="py-3 ps-3" style="border-top-left-radius: 10px;">Ödül Adı</th>
-                    <th class="py-3">Harcanan Puan</th>
-                    <th class="py-3 pe-3" style="border-top-right-radius: 10px;">Tarih</th>
+                    <th class="py-3 ps-3" style="border-top-left-radius: 10px;">Reward Name</th>
+                    <th class="py-3">Points Spent</th>
+                    <th class="py-3 pe-3" style="border-top-right-radius: 10px;">Date</th>
                 </tr>
             </thead>
             <tbody>

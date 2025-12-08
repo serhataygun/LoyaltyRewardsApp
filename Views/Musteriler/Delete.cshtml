@@ -7,7 +7,7 @@
 <div class="container mt-4" style="max-width: 600px;">
     <div class="card shadow border-danger">
         <div class="card-header bg-danger text-white">
-            <h4 class="mb-0">🗑️ Müşteriyi Silmek İstiyor Musun?</h4>
+            <h4 class="mb-0">🗑️ Do You Want to Delete the Customer?</h4>
         </div>
         <div class="card-body">
             <dl class="row">
@@ -18,7 +18,7 @@
                 <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
 
                 <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ToplamPuan)</dt>
-                <dd class="col-sm-8"><span class="badge bg-secondary">@Model.ToplamPuan Puan</span></dd>
+                <dd class="col-sm-8"><span class="badge bg-secondary">@Model.ToplamPuan Points</span></dd>
 
                 <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Rol)</dt>
                 <dd class="col-sm-8">@Html.DisplayFor(model => model.Rol)</dd>
@@ -30,11 +30,11 @@
                 <input type="hidden" asp-for="Id" />
                 
                 <button type="submit" class="btn btn-danger btn-lg px-4 me-2">
-                    Evet, Sil
+                    Yes, Delete
                 </button>
                 
                 <a asp-action="Index" class="btn btn-secondary btn-lg px-4">
-                    Vazgeç
+                    Cancel
                 </a>
             </form>
         </div>

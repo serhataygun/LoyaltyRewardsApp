@@ -6,16 +6,13 @@ namespace LoyaltyRewardsApp.Models
     {
         public int Id { get; set; }
 
-        // Kodun kendisi (Örn: "YAZ2025")
-        [DisplayName("Kod")]
+        [DisplayName("Code")]
         public string Kod { get; set; }
 
-        // Bu kod kaç puan kazandıracak?
-        [DisplayName("Puan Değeri")]
+        [DisplayName("Point Value")]
         public int PuanDegeri { get; set; }
 
-        // Kod kullanıldı mı? (Varsayılan: Hayır/False)
-        [DisplayName("Kullanıldı Mı?")]
+        [DisplayName("Used?")]
         public bool KullanildiMi { get; set; } = false;
     }
 }

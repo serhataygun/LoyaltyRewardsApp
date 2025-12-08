@@ -12,7 +12,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <!-- <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LoyaltyRewardsApp</a> -->
+                <a class="navbar-brand ms-4" asp-area="" asp-controller="Home" asp-action="Index">LoyaltyRewardsApp</a> 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,20 +22,20 @@
                     <ul class="navbar-nav flex-grow-1">
 
                         <li class="nav-item ms-4 me-3">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Anasayfa</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item ms-4 me-3">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Odullerimiz">Ödüller</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Odullerimiz">Rewards</a>
                         </li>
 
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item ms-4 me-3">
-                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Gecmisim">Geçmiş</a>
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Gecmisim">History</a>
                             </li>
 
                             <li class="nav-item ms-4 me-3">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Hesap" asp-action="Profil">Profil</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Hesap" asp-action="Profil">Profile</a>
                             </li>
                         }
 
@@ -43,15 +43,15 @@
                         {
                             <li class="nav-item dropdown ms-4 me-3">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">
-                                    Yönetici Paneli
+                                    Admin Panel
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-controller="Musteriler" asp-action="Index">Müşteriler</a></li>                                    
-                                    <li><a class="dropdown-item" asp-controller="AdminIslemler" asp-action="Index">Kullanıcı Harcamaları</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Musteriler" asp-action="Index">Customers</a></li>
+                                    <li><a class="dropdown-item" asp-controller="AdminIslemler" asp-action="Index">Customer Spending</a></li>
 
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-controller="Oduller" asp-action="Index">Ödüller</a></li>
-                                    <li><a class="dropdown-item" asp-controller="PromosyonKodlari" asp-action="Index">Promosyon Kodları</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Oduller" asp-action="Index">Reward Management</a></li>
+                                    <li><a class="dropdown-item" asp-controller="PromosyonKodlari" asp-action="Index">Promotion Codes</a></li>
                                 </ul>
                             </li>
                         }
@@ -62,19 +62,19 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <span class="nav-link text-dark">Merhaba, <strong>@User.Identity.Name</strong></span>
+                                <span class="nav-link text-dark"> <strong>@User.Identity.Name</strong></span>
                             </li>
                             <li class="nav-item">
-                                <a class="btn btn-outline-danger btn-sm mt-1" asp-controller="Hesap" asp-action="Cikis">Çıkış Yap</a>
+                                <a class="btn btn-outline-danger btn-sm mt-1" asp-controller="Hesap" asp-action="Cikis">Log Out</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item me-2">
-                                <a class="btn btn-outline-primary btn-sm mt-1" asp-controller="Hesap" asp-action="Giris">Giriş Yap</a>
+                                <a class="btn btn-outline-primary btn-sm mt-1" asp-controller="Hesap" asp-action="Giris">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="btn btn-success btn-sm mt-1" asp-controller="Hesap" asp-action="Kayit">Üye Ol</a>
+                                <a class="btn btn-success btn-sm mt-1" asp-controller="Hesap" asp-action="Kayit">Sign Up</a>
                             </li>
                         }
                     </ul>

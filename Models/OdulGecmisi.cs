@@ -6,12 +6,12 @@ namespace LoyaltyRewardsApp.Models
     {
         public int Id { get; set; }
 
-        public int MusteriId { get; set; } // Ödülü kim aldı?
+        public int MusteriId { get; set; } 
 
-        public string OdulAdi { get; set; } // Hangi ödülü aldı? (İsim olarak saklayalım, ödül silinse bile adı kalsın)
+        public string OdulAdi { get; set; } 
 
-        public int HarcananPuan { get; set; } // Kaça aldı?
+        public int HarcananPuan { get; set; } 
 
-        public DateTime Tarih { get; set; } // Ne zaman aldı?
+        public DateTime Tarih { get; set; } 
     }
 }

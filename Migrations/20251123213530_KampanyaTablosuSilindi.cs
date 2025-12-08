@@ -4,17 +4,14 @@
 
 namespace LoyaltyRewardsApp.Migrations
 {
-    /// <inheritdoc />
     public partial class KampanyaTablosuSilindi : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Kampanyalar");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(

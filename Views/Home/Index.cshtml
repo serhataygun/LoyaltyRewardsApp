@@ -17,13 +17,13 @@
 <div class="text-center mt-5">
     @if (Model != null && Model.Email != null) // Giriş yapmış kullanıcı
     {
-        <h1 class="display-4">Hoşgeldin, @Model.AdSoyad</h1>
-        <p class="lead">Mevcut Puanınız: <strong class="text-primary" style="font-size: 1.5em;">@Model.ToplamPuan</strong></p>
+        <h1 class="display-3">Welcome, @Model.AdSoyad</h1>
+        <p class="lead">Your Current Points:  <strong class="text-primary" style="font-size: 1.5em;">@Model.ToplamPuan</strong></p>
     }
     else // Giriş yapmamış misafir
     {
-        <h1 class="display-4">Hoşgeldin Misafir</h1>
-        <p>Ödülleri kazanmak için lütfen giriş yapın.</p>
+        <h1 class="display-4">Welcome Guest</h1>
+        <p>Please login to get the rewards.</p>
     }
 </div>
 
@@ -32,11 +32,11 @@
     <div class="container mb-4">
         <div class="card bg-light border-0 shadow-sm mx-auto" style="max-width: 500px;">
             <div class="card-body p-3">
-                <h6 class="card-title text-center mb-2 text-muted">Hediye Kodun Var Mı?</h6>
+                <h6 class="card-title text-center mb-2 text-muted">Do You Have a Promotion Code?</h6>
 
                 <form asp-controller="Home" asp-action="PuanKazan" method="post" class="d-flex gap-2">
-                    <input type="text" name="girilenKod" class="form-control" placeholder="Örn: YAZ2025" required />
-                    <button type="submit" class="btn btn-warning text-dark fw-bold">Yükle</button>
+                    <input type="text" name="girilenKod" class="form-control" placeholder="Ex: YAZ2025" required />
+                    <button type="submit" class="btn btn-warning text-dark fw-bold">Apply</button>
                 </form>
             </div>
         </div>
@@ -55,7 +55,7 @@
 </div>
 
 <div class="container mt-3">
-    <h5>Bir sonraki seviyeye ilerleme:</h5>
+    <h5>Advancing to the Next Level:</h5>
     <div class="progress" style="height: 25px;">
         <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
              role="progressbar"
@@ -64,24 +64,24 @@
             %@yuzde
         </div>
     </div>
-    <small class="text-muted">Hedef: @hedefPuan Puan</small>
+    <small class="text-muted">Goal: @hedefPuan Points</small>
 </div>
 
 <hr class="my-5" />
 
 <div class="container mb-5">
-    <h3 class="mb-4">Kazanabileceğin Ödüller</h3>
+    <h3 class="mb-4">Rewards You Can Win</h3>
     <div class="row">
 
         @if (ViewBag.Oduller != null)
         {
-            @foreach (var odul in ViewBag.Oduller as List<LoyaltyRewardsApp.Models.Odul>)
+            @foreach (var odul in (ViewBag.Oduller as List<LoyaltyRewardsApp.Models.Odul>).Take(3))
             {
                 <div class="col-md-4 mb-5">
                     <div class="card shadow-sm h-100" style="border-radius:15px">
                         <div class="card-header text-dark text-center"
                              style="background: linear-gradient(to right, #11998e, #38ef7d); border-top-right-radius: 15px; border-top-left-radius: 15px">
-                            <strong>@odul.GerekliPuan Puan</strong>
+                            <strong>@odul.GerekliPuan Points</strong>
                         </div>
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">@odul.Baslik</h5>
@@ -93,19 +93,19 @@
                                     <button type="button" class="btn btn-dark w-100 fw-bold shadow-sm"
                                             style="background-color: #002b36; border-radius: 50px;"
                                             data-bs-toggle="modal" data-bs-target="#modalOdul_@odul.Id">
-                                        Ödülü Al
+                                        Claim Reward
                                     </button>
                                 }
                                 else if (Model == null || Model.Email == null)
                                 {
                                     <a asp-controller="Hesap" asp-action="Giris" class="btn btn-dark w-100 fw-bold shadow-sm"
                                        style="background-color: #002b36; border-radius: 50px;">
-                                        Almak İçin Giriş Yap
+                                        Login to Get Reward
                                     </a>
                                 }
                                 else
                                 {
-                                    <button class="btn btn-secondary w-100" style="border-radius: 50px" disabled>Yetersiz Puan</button>
+                                    <button class="btn btn-secondary w-100" style="border-radius: 50px" disabled>Insufficient Point</button>
                                 }
                             </div>
                         </div>
@@ -135,5 +135,13 @@
                 </div>
             }
         }
+    </div>
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a asp-controller="Home" asp-action="Odullerimiz" class="btn btn-outline-dark btn-lg px-5 shadow-sm"
+               style="background: linear-gradient(to right, #11998e, #38ef7d); border-radius: 50px;">
+                See All Rewards <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+        </div>
     </div>
 </div>

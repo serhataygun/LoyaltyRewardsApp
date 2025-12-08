@@ -14,43 +14,43 @@
     }
 
     <div class="d-flex align-items-center mb-4 border-bottom pb-3">
-        <h2 class="mb-0 me-3 fw-bold text-dark">👤 Profil Ayarları</h2>
-        <span class="badge bg-primary rounded-pill">@Model.Rol Hesabı</span>
+        <h2 class="mb-0 me-3 fw-bold text-dark">👤 Profile Settings</h2>
+        <span class="badge bg-primary rounded-pill">@Model.Rol Account</span>
     </div>
 
     <form asp-action="Profil" method="post">
         <input type="hidden" asp-for="Id" />
 
         <div class="mb-4">
-            <label class="form-label text-muted fw-bold small">AD SOYAD</label>
+            <label class="form-label text-muted fw-bold small">NAME AND SURNAME</label>
             <input asp-for="AdSoyad" class="form-control form-control-lg bg-light border-0" />
         </div>
 
         <div class="mb-4">
-            <label class="form-label text-muted fw-bold small">E-POSTA ADRESİ</label>
+            <label class="form-label text-muted fw-bold small">E-MAIL ADDRESS</label>
             <input asp-for="Email" class="form-control form-control-lg bg-light border-0" />
         </div>
 
         <div class="mb-4">
-            <label class="form-label text-muted fw-bold small">YENİ ŞİFRE</label>
+            <label class="form-label text-muted fw-bold small">NEW PASSWORD</label>
             <input name="Sifre" type="password" class="form-control form-control-lg bg-light border-0" placeholder="••••••" />
-            <div class="form-text">Şifrenizi değiştirmek istemiyorsanız boş bırakın.</div>
+            <div class="form-text">If you do not want to change your password, leave it blank.</div>
         </div>
 
         <div class="d-flex justify-content-between align-items-center p-3 bg-dark text-white rounded-3 mb-4 shadow-sm">
             <div>
-                <small class="d-block text-white-50">Toplam Bakiyeniz</small>
-                <h3 class="mb-0 fw-bold">@Model.ToplamPuan Puan</h3>
+                <small class="d-block text-white-50">Total Point</small>
+                <h3 class="mb-0 fw-bold">@Model.ToplamPuan Point</h3>
             </div>
             <i class="bi bi-wallet2 fs-1 text-warning"></i>
         </div>
 
         <div class="d-grid gap-2">
             <button type="submit" class="btn btn-primary btn-lg shadow-sm">
-                Değişiklikleri Kaydet
+                Save Changes
             </button>
             <a asp-controller="Home" asp-action="Index" class="btn btn-secondary dark text-decoration-none btn-lg">
-                Vazgeç ve Anasayfaya Dön
+                Cancel and Return to Home Page
             </a>
         </div>
     </form>
