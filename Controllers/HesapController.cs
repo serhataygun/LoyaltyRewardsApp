@@ -91,7 +91,7 @@ namespace LoyaltyRewardsApp.Controllers
             _context.Musteriler.Add(yeniUye);
             _context.SaveChanges();
 
-            TempData["Basarili"] = "Your registration has been created! You can now log in.";
+            //TempData["Basarili"] = "Your registration has been created! You can now log in.";
             return RedirectToAction("Giris");
         }
 

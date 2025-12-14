@@ -4,7 +4,53 @@
     ViewData["Title"] = "Loyalty App";
 
     // İlerleme Çubuğu Hesabı
-    int hedefPuan = 1000;
+    int hedefPuan = 1;
+
+    if (@Model.ToplamPuan <= 500)
+    {
+        hedefPuan = 500;
+    }
+    else if (@Model.ToplamPuan > 500 && @Model.ToplamPuan <= 700)
+    {
+        hedefPuan = 700;
+    }
+    else if (@Model.ToplamPuan > 700 && @Model.ToplamPuan <= 800)
+    {
+        hedefPuan = 800;
+    }
+    else if (@Model.ToplamPuan > 800 && @Model.ToplamPuan <= 850)
+    {
+        hedefPuan = 850;
+    }
+    else if (@Model.ToplamPuan > 850 && @Model.ToplamPuan <= 1000)
+    {
+        hedefPuan = 1000;
+    }
+    else if (@Model.ToplamPuan > 1000 && @Model.ToplamPuan <= 1200)
+    {
+        hedefPuan = 1200;
+    }
+    else if (@Model.ToplamPuan > 1200 && @Model.ToplamPuan <= 2000)
+    {
+        hedefPuan = 2000;
+    }
+    else if (@Model.ToplamPuan > 2000 && @Model.ToplamPuan <= 3000)
+    {
+        hedefPuan = 3000;
+    }
+    else if (@Model.ToplamPuan > 3000 && @Model.ToplamPuan <= 3500)
+    {
+        hedefPuan = 3500;
+    }
+    else if (@Model.ToplamPuan > 3500 && @Model.ToplamPuan <= 4000)
+    {
+        hedefPuan = 4000;
+    }
+    else
+    {
+        hedefPuan = 5000;
+    }
+
     int yuzde = 0;
 
     if (Model != null)
