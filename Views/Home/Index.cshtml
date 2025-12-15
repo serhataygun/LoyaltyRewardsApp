@@ -121,8 +121,10 @@
 
         @if (ViewBag.Oduller != null)
         {
+            //Ana ekranda 3 ödül gösterilmesi
             @foreach (var odul in (ViewBag.Oduller as List<LoyaltyRewardsApp.Models.Odul>).Take(3))
             {
+                //bootstrapda ekran genişliği 12 birim (12/3=4) yani yanyana 3 tane için md-4 yaz
                 <div class="col-md-4 mb-5">
                     <div class="card shadow-sm h-100" style="border-radius:15px">
                         <div class="card-header text-dark text-center"
@@ -158,7 +160,10 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="modalOdul_@odul.Id" tabindex="-1">
+                //Satın alma onayı pop-up
+
+                //ID'si modalOdul_.ID olan kutuyu aç.
+                <div class="modal fade" id="modalOdul_@odul.Id" tabindex="-1">  
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">

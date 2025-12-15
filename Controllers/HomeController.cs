@@ -51,6 +51,8 @@ namespace LoyaltyRewardsApp.Controllers
 
             if (musteri == null || odul == null) return RedirectToAction("Index");
 
+            // Kullanýcýnýn puaný, ödülün puanýndan büyük veya eþitse iþlem yapýlýr.
+
             if (musteri.ToplamPuan >= odul.GerekliPuan)
             {
                 musteri.ToplamPuan -= odul.GerekliPuan;
@@ -64,10 +66,12 @@ namespace LoyaltyRewardsApp.Controllers
                 };
                 _context.GecmisIslemler.Add(yeniKayit);
 
+                //SQL kodu yazmadan C# ile veritabanýna kayýt
+
                 _context.SaveChanges();
                 TempData["Mesaj"] = "Congratulations, you've received your reward! You can view your rewards on the history page.";
             }
-            else
+            else   //Puan yetmezse iþlem iptal edilir.
             {
                 TempData["Hata"] = "Your score is insufficient!";
             }

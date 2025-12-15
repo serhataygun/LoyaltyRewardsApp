@@ -11,7 +11,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LoyaltyRewardsApp.Controllers
 {
-    [Authorize(Roles = "Admin")] 
+    [Authorize(Roles = "Admin")]
+
+    // "Admin" rolü olmayan hiç kimse bu sayfaya giremez.
     public class OdullerController : Controller
     {
         private readonly UygulamaDbContext _context;

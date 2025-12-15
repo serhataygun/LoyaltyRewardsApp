@@ -27,6 +27,8 @@ namespace LoyaltyRewardsApp.Controllers
 
             if (kullanici != null)
             {
+                //Şifreleri hashleme
+
                 var hasher = new PasswordHasher<Musteri>();
 
                 var sonuc = hasher.VerifyHashedPassword(kullanici, kullanici.Sifre, sifre);
