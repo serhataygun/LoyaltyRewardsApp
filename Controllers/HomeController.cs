@@ -24,7 +24,7 @@ namespace LoyaltyRewardsApp.Controllers
                 musteri = new Musteri { AdSoyad = "Guest (Please Log In)", ToplamPuan = 0 };
             }
 
-            ViewBag.Oduller = _context.Oduller.OrderBy(x => x.GerekliPuan).ToList();
+            ViewBag.Oduller = _context.Oduller.OrderBy(x => x.GerekliPuan).ToList();  //puana göre sýralama
 
             return View(musteri);
         }
@@ -102,6 +102,7 @@ namespace LoyaltyRewardsApp.Controllers
             if (promosyon != null)
             {
                 musteri.ToplamPuan += promosyon.PuanDegeri;
+                //promosyon used döner
                 promosyon.KullanildiMi = true;
                 _context.SaveChanges();
                 TempData["Mesaj"] = $"Congratulations! You earned {promosyon.PuanDegeri} points.";
@@ -124,7 +125,7 @@ namespace LoyaltyRewardsApp.Controllers
 
             var gecmisListe = _context.GecmisIslemler
                                       .Where(x => x.MusteriId == id)
-                                      .OrderByDescending(x => x.Tarih)
+                                      .OrderByDescending(x => x.Tarih)  
                                       .ToList();
 
             return View(gecmisListe);
